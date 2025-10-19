@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大帅的网页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        h1 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .intro {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .image-container {
+            margin: 25px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .weather-link {
+            display: inline-block;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            font-size: 1.1rem;
+        }
+        
+        .weather-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            flex: 1;
+            min-width: 200px;
+            margin: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature h3 {
+            color: #2575fc;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .features {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>欢迎来到大帅的网页</h1>
+        
+        <p class="intro">
+            你好！我是大帅哥，这是我的个人网页。这里展示了我喜欢的内容和有用的链接。
+        </p>
+        
+        <div class="image-container">
+            <!-- 使用一个可靠的图片链接替代原链接 -->
+            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="可爱的小猪">
+        </div>
+        
+        <p style="margin: 15px 0; color: #666;">
+            上面是一只可爱的小猪图片，替代了原来的猪猪侠图片。
+        </p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>简洁设计</h3>
+                <p>现代化的界面设计，简洁大方</p>
+            </div>
+            <div class="feature">
+                <h3>响应式布局</h3>
+                <p>在各种设备上都能完美显示</p>
+            </div>
+            <div class="feature">
+                <h3>实用功能</h3>
+                <p>提供天气查询等实用功能</p>
+            </div>
+        </div>
+        
+        <a href="https://www.msn.cn/zh-cn/weather/forecast/in-%E6%B1%9F%E8%A5%BF%E7%9C%81,%E5%8D%97%E6%98%8C%E5%B8%82?loc=eyJsIjoi5Y2X5piM5biCIiwiciI6Iuaxn%2Bilv%2BecgSIsImMiOiLkuK3ljY7kurrmsJHlhbHlkozlm70iLCJpIjoiQ04iLCJnIjoiemgtY24iLCJ4IjoiMTE1Ljg0OTk3NTU4NTkzNzUiLCJ5IjoiMjguNjY4ODY3MTExMjA2MDU1In0%3D&weadegreetype=C&ocid=winp2fptaskbar&cvid=3ebce1ea9edf4348c02356a9859d12ba&content=TeaserDayTempTrend_wxnwtsdttd" 
+           target="_blank" class="weather-link">
+            查看南昌天气
+        </a>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 大帅的网页 - 保留所有权利</p>
+    </div>
+</body>
+</html>

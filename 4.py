@@ -1,0 +1,17 @@
+from turtle import *#可以直接使用函数
+pensize(3)
+pencolor("red")
+fillcolor("pink")
+begin_fill()
+left(135)
+forward(100)
+circle(-50,180)#半径+角度
+left(90)
+circle(-50,180)
+forward(100)
+end_fill()
+penup()
+pencolor("black")
+goto(0,80)
+hideturtle()
+write("LOVE YOU",align="center",font=("Arial",20,"bold"))

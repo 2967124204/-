@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猪猪侠互动游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', '微软雅黑', sans-serif;
+            background: linear-gradient(135deg, #6ecbf5 0%, #059ee3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        header {
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0 #ffde59;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        
+        .game-area {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .character img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .character img:hover {
+            transform: scale(1.05);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #e05555;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #e05555;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #e05555;
+        }
+        
+        .action-btn {
+            background: #4ecdc4;
+            box-shadow: 0 4px 0 #3bb4ac;
+        }
+        
+        .action-btn:hover {
+            box-shadow: 0 6px 0 #3bb4ac;
+        }
+        
+        .action-btn:active {
+            box-shadow: 0 2px 0 #3bb4ac;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .message-box {
+            background: #ffde59;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .effect {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: floatUp 1s forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+        
+        .hit-animation {
+            animation: hit 0.3s;
+        }
+        
+        @keyframes hit {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            margin-top: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .character {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>猪猪侠互动游戏</h1>
+            <p class="subtitle">与猪猪侠一起玩耍，帮助他变得更强大！</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="character">
+                <img id="pig-hero" src="https://via.placeholder.com/200x200/4ecdc4/ffffff?text=猪猪侠" alt="猪猪侠">
+                <div class="effects" id="effects"></div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="health">100</div>
+                    <div class="stat-label">生命值</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="power">10</div>
+                    <div class="stat-label">力量值</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">得分</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="action-btn" id="feed-btn">喂食</button>
+                <button class="action-btn" id="train-btn">训练</button>
+                <button class="action-btn" id="play-btn">玩耍</button>
+                <button id="attack-btn">轻拍</button>
+            </div>
+            
+            <div class="message-box" id="message">
+                点击猪猪侠或使用按钮与他互动！
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>游戏说明：</h3>
+            <ul>
+                <li><strong>喂食</strong>：恢复猪猪侠的生命值</li>
+                <li><strong>训练</strong>：增加猪猪侠的力量值</li>
+                <li><strong>玩耍</strong>：提高猪猪侠的心情和得分</li>
+                <li><strong>轻拍</strong>：与猪猪侠互动，但不要太用力哦！</li>
+                <li>直接点击猪猪侠图像也可以与他互动</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>注意：本游戏仅为娱乐目的，请勿在现实生活中伤害他人</p>
+        </footer>
+    </div>
+
+    <script>
+        // 游戏状态
+        const gameState = {
+            health: 100,
+            power: 10,
+            score: 0,
+            messages: [
+                "猪猪侠很开心！",
+                "猪猪侠变得更加强壮了！",
+                "猪猪侠需要休息一下~",
+                "猪猪侠的能量满满！",
+                "猪猪侠学会了新技能！",
+                "猪猪侠感谢你的照顾！"
+            ]
+        };
+        
+        // DOM元素
+        const pigHero = document.getElementById('pig-hero');
+        const healthEl = document.getElementById('health');
+        const powerEl = document.getElementById('power');
+        const scoreEl = document.getElementById('score');
+        const messageEl = document.getElementById('message');
+        const effectsEl = document.getElementById('effects');
+        const feedBtn = document.getElementById('feed-btn');
+        const trainBtn = document.getElementById('train-btn');
+        const playBtn = document.getElementById('play-btn');
+        const attackBtn = document.getElementById('attack-btn');
+        
+        // 更新显示
+        function updateDisplay() {
+            healthEl.textContent = gameState.health;
+            powerEl.textContent = gameState.power;
+            scoreEl.textContent = gameState.score;
+        }
+        
+        // 显示消息
+        function showMessage(text) {
+            messageEl.textContent = text;
+        }
+        
+        // 创建特效
+        function createEffect(text, x, y, color = '#ff6b6b') {
+            const effect = document.createElement('div');
+            effect.className = 'effect';
+            effect.textContent = text;
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            effect.style.color = color;
+            effectsEl.appendChild(effect);
+            
+            // 移除特效元素
+            setTimeout(() => {
+                effect.remove();
+            }, 1000);
+        }
+        
+        // 喂食功能
+        feedBtn.addEventListener('click', function() {
+            if (gameState.health < 100) {
+                gameState.health = Math.min(100, gameState.health + 15);
+                gameState.score += 5;
+                showMessage("猪猪侠吃饱了，生命值恢复！");
+                createEffect("+15 HP", 100, 150, '#4ecdc4');
+                pigHero.classList.add('hit-animation');
+                setTimeout(() => pigHero.classList.remove('hit-animation'), 300);
+            } else {
+                showMessage("猪猪侠已经很饱了！");
+            }
+            updateDisplay();
+        });
+        
+        // 训练功能
+        trainBtn.addEventListener('click', function() {
+            gameState.power += 2;
+            gameState.health = Math.max(0, gameState.health - 5);
+            gameState.score += 10;
+            showMessage("猪猪侠经过训练，力量提升了！");
+            createEffect("+2 力量", 100, 150, '#ff9e6d');
+            pigHero.classList.add('hit-animation');
+            setTimeout(() => pigHero.classList.remove('hit-animation'), 300);
+            
+            if (gameState.health <= 0) {
+                showMessage("猪猪侠太累了，需要休息和进食！");
+            }
+            updateDisplay();
+        });
+        
+        // 玩耍功能
+        playBtn.addEventListener('click', function() {
+            gameState.score += 15;
+            const randomMessage = gameState.messages[Math.floor(Math.random() * gameState.messages.length)];
+            showMessage(randomMessage);
+            createEffect("+15 分", 100, 150, '#ffde59');
+            pigHero.classList.add('hit-animation');
+            setTimeout(() => pigHero.classList.remove('hit-animation'), 300);
+            updateDisplay();
+        });
+        
+        // 轻拍功能
+        attackBtn.addEventListener('click', function() {
+            if (gameState.health > 0) {
+                gameState.health = Math.max(0, gameState.health - 5);
+                gameState.score += 3;
+                showMessage("你轻轻拍了拍猪猪侠，他有点惊讶！");
+                createEffect("-5 HP", 100, 150);
+                pigHero.classList.add('hit-animation');
+                setTimeout(() => pigHero.classList.remove('hit-animation'), 300);
+                
+                if (gameState.health <= 0) {
+                    showMessage("猪猪侠需要休息！请喂食恢复生命值。");
+                }
+            } else {
+                showMessage("猪猪侠已经没力气了，请先喂食！");
+            }
+            updateDisplay();
+        });
+        
+        // 点击猪猪侠图像
+        pigHero.addEventListener('click', function(e) {
+            const rect = pigHero.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (gameState.health > 0) {
+                gameState.score += 2;
+                showMessage("猪猪侠感受到了你的关注！");
+                createEffect("+2 分", x, y, '#a5dee5');
+                pigHero.classList.add('hit-animation');
+                setTimeout(() => pigHero.classList.remove('hit-animation'), 300);
+            } else {
+                showMessage("猪猪侠需要恢复生命值！");
+            }
+            updateDisplay();
+        });
+        
+        // 初始化显示
+        updateDisplay();
+    </script>
+</body>
+</html>
